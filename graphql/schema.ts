@@ -3,6 +3,10 @@ import { auth } from "nexus-plugin-jwt-auth";
 import { paljs } from "nexus-plugin-paljs";
 import { prisma } from "nexus-plugin-prisma";
 import { User } from "nexus-plugin-prisma/client";
+import "./models/Mutation";
+import "./models/Note";
+import "./models/Query";
+import "./models/User";
 
 schema.addToContext(() => ({ user: null as User | null }));
 

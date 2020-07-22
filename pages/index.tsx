@@ -1,15 +1,35 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import { Spinner } from "@zeit-ui/react";
+import Link from "next/link";
+import Router from "next/router";
+import Layout from "../components/Layout";
+import { useMeQuery } from "../graphql/generated";
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+const IndexPage = () => {
+	const { data, error } = useMeQuery();
 
-export default IndexPage
+	if (error) return <div>{error.message}</div>;
+
+	if (data) {
+		if (!data.me) Router.push("/login");
+		else
+			return (
+				<Layout title="Home | Next.js + TypeScript Example">
+					<h1>Hello Next.js 👋</h1>
+					<h2>{data.me.name}</h2>
+					<p>
+						<Link href="/about">
+							<a>About</a>
+						</Link>
+					</p>
+				</Layout>
+			);
+	}
+
+	return (
+		<div>
+			<Spinner size="large" />
+		</div>
+	);
+};
+
+export default IndexPage;

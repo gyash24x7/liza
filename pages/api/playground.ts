@@ -6,4 +6,4 @@ require("../../graphql/schema");
 
 app.assemble();
 
-export default app.server.handlers.graphql;
+export default app.server.handlers.playground;

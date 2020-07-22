@@ -8,6 +8,11 @@ schema.queryType({
 			resolve: (_parent, _args, { user }) => user
 		});
 
+		t.field("hello", {
+			type: "String",
+			resolve: () => "Hello!"
+		});
+
 		t.list.field("myNotes", {
 			type: "Note",
 			async resolve(_parent, _args, { db, user, select }) {
