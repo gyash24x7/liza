@@ -2,6 +2,18 @@
 ### Do not make changes to this file directly
 
 
+type AggregateNote {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  count: Int!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
 `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
@@ -15,13 +27,149 @@ The `JSON` scalar type represents JSON objects as specified by [ECMA-404](http:/
 scalar Json
 
 type Mutation {
+  createNote(content: String!, title: String!): Boolean
   login(email: String!, password: String!): String
   signup(email: String!, name: String!, password: String!): String
 }
 
+type Note {
+  author: User!
+  content: String!
+  id: String!
+  title: String!
+}
+
+input NoteCreateInput {
+  author: UserCreateOneWithoutNotesInput!
+  content: String!
+  id: String
+  title: String!
+}
+
+input NoteCreateManyWithoutAuthorInput {
+  connect: [NoteWhereUniqueInput!]
+  create: [NoteCreateWithoutAuthorInput!]
+}
+
+input NoteCreateWithoutAuthorInput {
+  content: String!
+  id: String
+  title: String!
+}
+
+input NoteFilter {
+  every: NoteWhereInput
+  none: NoteWhereInput
+  some: NoteWhereInput
+}
+
+input NoteOrderByInput {
+  authorId: OrderByArg
+  content: OrderByArg
+  id: OrderByArg
+  title: OrderByArg
+}
+
+input NoteScalarWhereInput {
+  AND: [NoteScalarWhereInput!]
+  authorId: StringFilter
+  content: StringFilter
+  id: StringFilter
+  NOT: [NoteScalarWhereInput!]
+  OR: [NoteScalarWhereInput!]
+  title: StringFilter
+}
+
+input NoteUpdateInput {
+  author: UserUpdateOneRequiredWithoutNotesInput
+  content: String
+  id: String
+  title: String
+}
+
+input NoteUpdateManyDataInput {
+  content: String
+  id: String
+  title: String
+}
+
+input NoteUpdateManyMutationInput {
+  content: String
+  id: String
+  title: String
+}
+
+input NoteUpdateManyWithoutAuthorInput {
+  connect: [NoteWhereUniqueInput!]
+  create: [NoteCreateWithoutAuthorInput!]
+  delete: [NoteWhereUniqueInput!]
+  deleteMany: [NoteScalarWhereInput!]
+  disconnect: [NoteWhereUniqueInput!]
+  set: [NoteWhereUniqueInput!]
+  update: [NoteUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [NoteUpdateManyWithWhereNestedInput!]
+  upsert: [NoteUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input NoteUpdateManyWithWhereNestedInput {
+  data: NoteUpdateManyDataInput!
+  where: NoteScalarWhereInput!
+}
+
+input NoteUpdateWithoutAuthorDataInput {
+  content: String
+  id: String
+  title: String
+}
+
+input NoteUpdateWithWhereUniqueWithoutAuthorInput {
+  data: NoteUpdateWithoutAuthorDataInput!
+  where: NoteWhereUniqueInput!
+}
+
+input NoteUpsertWithWhereUniqueWithoutAuthorInput {
+  create: NoteCreateWithoutAuthorInput!
+  update: NoteUpdateWithoutAuthorDataInput!
+  where: NoteWhereUniqueInput!
+}
+
+input NoteWhereInput {
+  AND: [NoteWhereInput!]
+  author: UserWhereInput
+  authorId: StringFilter
+  content: StringFilter
+  id: StringFilter
+  NOT: [NoteWhereInput!]
+  OR: [NoteWhereInput!]
+  title: StringFilter
+}
+
+input NoteWhereUniqueInput {
+  id: String
+}
+
+enum OrderByArg {
+  asc
+  desc
+}
+
 type Query {
   me: User
-  user(where: UserWhereUniqueInput!): User
+  myNotes: [Note!]
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
+  startsWith: String
 }
 
 type User {
@@ -29,6 +177,93 @@ type User {
   email: String!
   id: String!
   name: String!
+  notes(after: NoteWhereUniqueInput, before: NoteWhereUniqueInput, first: Int, last: Int): [Note!]!
+}
+
+input UserCreateInput {
+  avatar: String!
+  email: String!
+  id: String
+  name: String!
+  notes: NoteCreateManyWithoutAuthorInput
+  password: String!
+  salt: String!
+}
+
+input UserCreateOneWithoutNotesInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutNotesInput
+}
+
+input UserCreateWithoutNotesInput {
+  avatar: String!
+  email: String!
+  id: String
+  name: String!
+  password: String!
+  salt: String!
+}
+
+input UserOrderByInput {
+  avatar: OrderByArg
+  email: OrderByArg
+  id: OrderByArg
+  name: OrderByArg
+  password: OrderByArg
+  salt: OrderByArg
+}
+
+input UserUpdateInput {
+  avatar: String
+  email: String
+  id: String
+  name: String
+  notes: NoteUpdateManyWithoutAuthorInput
+  password: String
+  salt: String
+}
+
+input UserUpdateManyMutationInput {
+  avatar: String
+  email: String
+  id: String
+  name: String
+  password: String
+  salt: String
+}
+
+input UserUpdateOneRequiredWithoutNotesInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutNotesInput
+  update: UserUpdateWithoutNotesDataInput
+  upsert: UserUpsertWithoutNotesInput
+}
+
+input UserUpdateWithoutNotesDataInput {
+  avatar: String
+  email: String
+  id: String
+  name: String
+  password: String
+  salt: String
+}
+
+input UserUpsertWithoutNotesInput {
+  create: UserCreateWithoutNotesInput!
+  update: UserUpdateWithoutNotesDataInput!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  avatar: StringFilter
+  email: StringFilter
+  id: StringFilter
+  name: StringFilter
+  NOT: [UserWhereInput!]
+  notes: NoteFilter
+  OR: [UserWhereInput!]
+  password: StringFilter
+  salt: StringFilter
 }
 
 input UserWhereUniqueInput {

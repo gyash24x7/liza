@@ -21,6 +21,7 @@ schema.mutationType({
 				return sign({ id: user.id }, process.env.JWT_SECRET!);
 			}
 		});
+
 		t.field("signup", {
 			type: "String",
 			args: {
@@ -41,6 +42,25 @@ schema.mutationType({
 				});
 
 				return sign({ id }, process.env.JWT_SECRET!);
+			}
+		});
+
+		t.field("createNote", {
+			type: "Boolean",
+			args: {
+				title: schema.stringArg({ required: true }),
+				content: schema.stringArg({ required: true })
+			},
+			async resolve(_parent, args, { db, user }) {
+				if (!user) throw new Error("Unauthorized!");
+				const note = await db.note
+					.create({ data: { ...args, author: { connect: { id: user.id } } } })
+					.catch((err) => {
+						console.error(err);
+						throw new Error("Internal Server Error!");
+					});
+
+				return !!note;
 			}
 		});
 	}
