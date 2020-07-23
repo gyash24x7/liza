@@ -1,7 +1,6 @@
 import { Spinner } from "@zeit-ui/react";
-import Link from "next/link";
 import Router from "next/router";
-import Layout from "../components/Layout";
+import { Layout } from "../components/Layout";
 import { useMeQuery } from "../graphql/generated";
 
 const IndexPage = () => {
@@ -13,14 +12,10 @@ const IndexPage = () => {
 		if (!data.me) Router.push("/login");
 		else
 			return (
-				<Layout title="Home | Next.js + TypeScript Example">
+				<Layout>
 					<h1>Hello Next.js 👋</h1>
 					<h2>{data.me.name}</h2>
-					<p>
-						<Link href="/about">
-							<a>About</a>
-						</Link>
-					</p>
+
 					<button
 						onClick={() => {
 							localStorage.clear();
@@ -34,7 +29,7 @@ const IndexPage = () => {
 	}
 
 	return (
-		<div>
+		<div className="spinner-wrapper">
 			<Spinner size="large" />
 		</div>
 	);
