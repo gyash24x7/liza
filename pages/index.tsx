@@ -21,6 +21,14 @@ const IndexPage = () => {
 							<a>About</a>
 						</Link>
 					</p>
+					<button
+						onClick={() => {
+							localStorage.clear();
+							window.location.pathname = "/login";
+						}}
+					>
+						LOGOUT
+					</button>
 				</Layout>
 			);
 	}

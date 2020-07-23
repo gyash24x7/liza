@@ -11,7 +11,15 @@ let client: ApolloClient<NormalizedCacheObject>;
 const createApolloClient = () => {
 	return new ApolloClient({
 		ssrMode: typeof window !== "undefined",
-		link: new HttpLink({ uri: "http://localhost:3000/api/graphql" }),
+		link: new HttpLink({
+			uri: "http://localhost:3000/api/graphql",
+			headers: {
+				Authorization:
+					typeof window !== "undefined" &&
+					!!localStorage.getItem("authToken") &&
+					`Bearer ${localStorage.getItem("authToken")}`
+			}
+		}),
 		cache: new InMemoryCache()
 	});
 };

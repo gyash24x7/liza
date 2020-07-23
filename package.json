@@ -2,7 +2,7 @@
 	"name": "with-typescript",
 	"version": "1.0.0",
 	"scripts": {
-		"dev": "next",
+		"dev": "env-cmd -f ./prisma/.env next",
 		"build": "next build",
 		"start": "next start",
 		"dev:nexus": "env-cmd -f ./prisma/.env nexus dev",
@@ -19,6 +19,7 @@
 	"dependencies": {
 		"@apollo/client": "^3.0.2",
 		"@zeit-ui/react": "^1.8.0-canary.7",
+		"@zeit-ui/react-icons": "^1.3.0",
 		"avataaars": "^1.2.1",
 		"bcryptjs": "^2.4.3",
 		"env-cmd": "^10.1.0",

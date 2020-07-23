@@ -7,17 +7,19 @@ import {
 	Spinner,
 	Text
 } from "@zeit-ui/react";
-import PasswordIcon from "@zeit-ui/react-icons/eyeOff";
+import LockIcon from "@zeit-ui/react-icons/lock";
 import MailIcon from "@zeit-ui/react-icons/mail";
+import UserIcon from "@zeit-ui/react-icons/user";
 import Link from "next/link";
 import Router from "next/router";
 import { ChangeEvent, useState } from "react";
-import { useLoginMutation, useMeQuery } from "../graphql/generated";
+import { useMeQuery, useSignupMutation } from "../graphql/generated";
 import styles from "../styles/login.module.scss";
 
 const emailRegex = /^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
 export default () => {
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMsg, setErrorMsg] = useState("");
@@ -25,6 +27,9 @@ export default () => {
 	const handleSubmit = () => {
 		let message = "";
 		switch (true) {
+			case !name:
+				message = "Name is required!";
+				break;
 			case !email:
 				message = "Email is required!";
 				break;
@@ -43,13 +48,16 @@ export default () => {
 		setErrorMsg(message);
 	};
 
-	const handleChange = (field: "email" | "password") => (
+	const handleChange = (field: "name" | "email" | "password") => (
 		e: ChangeEvent<HTMLInputElement>
 	) => {
 		e.persist();
 		switch (field) {
 			case "email":
 				setEmail(e.target.value);
+				break;
+			case "name":
+				setName(e.target.value);
 				break;
 			case "password":
 				setPassword(e.target.value);
@@ -59,16 +67,14 @@ export default () => {
 	};
 
 	const { data } = useMeQuery();
-	const [signup, { loading }] = useLoginMutation({
-		variables: { email, password },
-		onCompleted({ login }) {
-			if (login) {
-				localStorage.setItem("authToken", login);
+	const [signup] = useSignupMutation({
+		variables: { name, email, password },
+		onCompleted({ signup }) {
+			if (signup) {
+				localStorage.setItem("authToken", signup);
 				window.location.pathname = "/";
 			}
-		},
-		onError: (err: any) =>
-			setErrorMsg(err.networkError.result.errors[0].message)
+		}
 	});
 
 	if (data) {
@@ -83,9 +89,17 @@ export default () => {
 					<Grid xs={24} sm={18} md={12} lg={9} className={styles.grid}>
 						<Card className={styles.card}>
 							<Text h3 className={styles.title}>
-								LOGIN
+								SIGN UP
 							</Text>
 							<Spacer y={2} />
+							<Input
+								placeholder="Name"
+								width="100%"
+								iconRight={<UserIcon />}
+								value={name}
+								onChange={handleChange("name")}
+							/>
+							<Spacer y={0.5} />
 							<Input
 								placeholder="Email"
 								width="100%"
@@ -99,7 +113,7 @@ export default () => {
 								placeholder="Password"
 								width="100%"
 								type="password"
-								iconRight={<PasswordIcon />}
+								iconRight={<LockIcon />}
 								value={password}
 								onChange={handleChange("password")}
 							/>
@@ -109,7 +123,6 @@ export default () => {
 								type="success"
 								className={styles.button}
 								onClick={handleSubmit}
-								loading={loading}
 							>
 								Submit
 							</Button>
@@ -117,9 +130,9 @@ export default () => {
 								{errorMsg}
 							</Text>
 							<Card.Footer className={styles.cardFooter}>
-								<Text>Don't have an account?</Text>
-								<Link href="/signup">
-									<a>Create One</a>
+								<Text>Already have an account?</Text>
+								<Link href="/login">
+									<a>Login</a>
 								</Link>
 							</Card.Footer>
 						</Card>

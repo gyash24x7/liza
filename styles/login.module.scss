@@ -1,9 +1,33 @@
+@import "./constants";
+
 .card {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	align-items: center;
+	text-align: center;
 }
 
 .grid {
 	padding: 10% 5% !important;
+}
+
+.title {
+	font-family: $title-font;
+}
+
+.button {
+	width: 100% !important;
+	text-transform: uppercase !important;
+	font-weight: 700 !important;
+}
+
+.cardFooter {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.error small {
+	font-weight: 700 !important;
+	text-transform: uppercase;
 }
