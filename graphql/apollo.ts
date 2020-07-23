@@ -12,7 +12,7 @@ const createApolloClient = () => {
 	return new ApolloClient({
 		ssrMode: typeof window !== "undefined",
 		link: new HttpLink({
-			uri: "http://localhost:3000/api/graphql",
+			uri: "http://192.168.43.59:8000/api/graphql",
 			headers: {
 				Authorization:
 					typeof window !== "undefined" &&

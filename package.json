@@ -2,7 +2,7 @@
 	"name": "with-typescript",
 	"version": "1.0.0",
 	"scripts": {
-		"dev": "env-cmd -f ./prisma/.env next",
+		"dev": "env-cmd -f ./prisma/.env next --hostname 192.168.43.59 --port 8000",
 		"build": "next build",
 		"start": "next start",
 		"dev:nexus": "env-cmd -f ./prisma/.env nexus dev",

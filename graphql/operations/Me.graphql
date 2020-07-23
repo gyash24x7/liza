@@ -3,5 +3,6 @@ query Me {
 		name
 		email
 		id
+		avatar
 	}
 }

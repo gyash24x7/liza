@@ -318,7 +318,7 @@ export type LoginMutation = { login?: Maybe<string> };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { me?: Maybe<{ name: string, email: string, id: string }> };
+export type MeQuery = { me?: Maybe<{ name: string, email: string, id: string, avatar: string }> };
 
 export type SignupMutationVariables = Exact<{
   name: Scalars['String'];
@@ -348,6 +348,7 @@ export const MeDocument = gql`
     name
     email
     id
+    avatar
   }
 }
     `;

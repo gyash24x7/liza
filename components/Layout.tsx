@@ -1,15 +1,18 @@
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
+import { MeQuery } from "../graphql/generated";
+import { MeContext } from "../utils/context";
 import { Header } from "./Header";
 
 interface LayoutProps {
 	children: ReactNode;
+	me: MeQuery["me"];
 }
 
 export const Layout = (props: LayoutProps) => {
 	return (
-		<Fragment>
+		<MeContext.Provider value={props.me}>
 			<Header />
 			{props.children}
-		</Fragment>
+		</MeContext.Provider>
 	);
 };

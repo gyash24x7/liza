@@ -7,7 +7,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 	res.setHeader("Content-Type", "image/svg+xml");
 	res.send(
 		ReactDOMServer.renderToString(
-			<Avataaars {...req.query} avatarStyle="Circle" />
+			<Avataaars {...req.query} avatarStyle="Transparent" />
 		)
 	);
 };

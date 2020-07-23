@@ -12,7 +12,7 @@ const IndexPage = () => {
 		if (!data.me) Router.push("/login");
 		else
 			return (
-				<Layout>
+				<Layout me={data.me}>
 					<h1>Hello Next.js 👋</h1>
 					<h2>{data.me.name}</h2>
 
