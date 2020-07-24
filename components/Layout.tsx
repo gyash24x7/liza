@@ -12,7 +12,7 @@ export const Layout = (props: LayoutProps) => {
 	return (
 		<MeContext.Provider value={props.me}>
 			<Header />
-			{props.children}
+			<div style={{ marginTop: 70 }}>{props.children}</div>
 		</MeContext.Provider>
 	);
 };

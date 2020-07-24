@@ -1,4 +1,5 @@
-import { Select, Spacer, User, useTheme } from "@zeit-ui/react";
+import { Button, Select, Spacer, User, useTheme } from "@zeit-ui/react";
+import LogOutIcon from "@zeit-ui/react-icons/logOut";
 import MoonIcon from "@zeit-ui/react-icons/moon";
 import SunIcon from "@zeit-ui/react-icons/sun";
 import { CSSProperties, Fragment } from "react";
@@ -9,6 +10,12 @@ export const Header = () => {
 	const { theme, setTheme } = useThemeContext()!;
 	const { avatar, name } = useMeContext()!;
 
+	const logout = () => {
+		localStorage.clear();
+		localStorage.setItem("theme", theme);
+		window.location.pathname = "/login";
+	};
+
 	const styles: Record<string, CSSProperties> = {
 		wrapper: {
 			width: "calc(100vw - 40px)",
@@ -17,7 +24,11 @@ export const Header = () => {
 			justifyContent: "space-between",
 			height: "70px",
 			alignItems: "center",
-			borderBottom: `1px solid ${palette.accents_2}`
+			borderBottom: `2px solid ${palette.accents_2}`,
+			position: "fixed",
+			backgroundColor: palette.background,
+			boxShadow: `0px 0px 20px ${palette.accents_2}`,
+			zIndex: 100
 		},
 
 		appName: {
@@ -58,6 +69,8 @@ export const Header = () => {
 					</Select>
 					<Spacer x={1} />
 					<User src={avatar} name={name} />
+					<Spacer x={1} />
+					<Button icon={<LogOutIcon />} size="small" auto onClick={logout} />
 				</div>
 			</div>
 		</Fragment>

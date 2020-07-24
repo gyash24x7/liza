@@ -1,0 +1,7 @@
+query MyNotes {
+	myNotes {
+		id
+		title
+		content
+	}
+}

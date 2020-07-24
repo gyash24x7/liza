@@ -320,6 +320,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { me?: Maybe<{ name: string, email: string, id: string, avatar: string }> };
 
+export type MyNotesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyNotesQuery = { myNotes?: Maybe<Array<{ id: string, title: string, content: string }>> };
+
 export type SignupMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -363,6 +368,27 @@ export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
 export function refetchMeQuery(variables?: MeQueryVariables) {
       return { query: MeDocument, variables: variables }
+    }
+export const MyNotesDocument = gql`
+    query MyNotes {
+  myNotes {
+    id
+    title
+    content
+  }
+}
+    `;
+export function useMyNotesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyNotesQuery, MyNotesQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyNotesQuery, MyNotesQueryVariables>(MyNotesDocument, baseOptions);
+      }
+export function useMyNotesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyNotesQuery, MyNotesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyNotesQuery, MyNotesQueryVariables>(MyNotesDocument, baseOptions);
+        }
+export type MyNotesQueryHookResult = ReturnType<typeof useMyNotesQuery>;
+export type MyNotesLazyQueryHookResult = ReturnType<typeof useMyNotesLazyQuery>;
+export type MyNotesQueryResult = ApolloReactCommon.QueryResult<MyNotesQuery, MyNotesQueryVariables>;
+export function refetchMyNotesQuery(variables?: MyNotesQueryVariables) {
+      return { query: MyNotesDocument, variables: variables }
     }
 export const SignupDocument = gql`
     mutation Signup($name: String!, $email: String!, $password: String!) {

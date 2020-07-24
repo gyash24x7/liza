@@ -24,6 +24,7 @@
 		"bcryptjs": "^2.4.3",
 		"env-cmd": "^10.1.0",
 		"jsonwebtoken": "^8.5.1",
+		"lorem-ipsum": "^2.0.3",
 		"next": "latest",
 		"nexus": "^0.25.0",
 		"nexus-plugin-jwt-auth": "^1.2.0",
@@ -31,6 +32,7 @@
 		"nexus-plugin-prisma": "^0.16.1",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
+		"react-use": "^15.3.2",
 		"sass": "^1.26.10"
 	},
 	"devDependencies": {

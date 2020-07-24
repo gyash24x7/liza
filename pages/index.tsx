@@ -1,6 +1,7 @@
 import { Spinner } from "@zeit-ui/react";
 import Router from "next/router";
 import { Layout } from "../components/Layout";
+import { NoteList } from "../components/NoteList";
 import { useMeQuery } from "../graphql/generated";
 
 const IndexPage = () => {
@@ -13,17 +14,7 @@ const IndexPage = () => {
 		else
 			return (
 				<Layout me={data.me}>
-					<h1>Hello Next.js 👋</h1>
-					<h2>{data.me.name}</h2>
-
-					<button
-						onClick={() => {
-							localStorage.clear();
-							window.location.pathname = "/login";
-						}}
-					>
-						LOGOUT
-					</button>
+					<NoteList />
 				</Layout>
 			);
 	}
